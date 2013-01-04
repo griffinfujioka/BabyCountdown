@@ -546,7 +546,7 @@
     </Style>
     <Style x:Key="HelpAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="HelpAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Help"/>
+        <Setter Property="AutomationProperties.Name" Value="About"/>
         <Setter Property="Content" Value="&#xE11B;"/>
     </Style>
     <Style x:Key="UploadAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
@@ -886,7 +886,7 @@
     </Style>
     <Style x:Key="CalendarAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="CalendarAppBarButton"/>
-        <Setter Property="AutomationProperties.Name" Value="Calendar"/>
+        <Setter Property="AutomationProperties.Name" Value="Change date"/>
         <Setter Property="Content" Value="&#xE163;"/>
     </Style>
     <Style x:Key="CharactersAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">

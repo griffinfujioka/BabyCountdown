@@ -47,7 +47,7 @@
 
                 <StackPanel x:Name="stackPanel1" Orientation="Vertical" Grid.Row="1" Grid.Column="0" Width="100" HorizontalAlignment="left">
 
-                    <ComboBox x:Name="monthComboBox" Height="35" VerticalAlignment="Top" Width="140" Margin="5,10,5,0" Foreground="Black" >
+                    <ComboBox x:Name="monthComboBox" Height="35" VerticalAlignment="Top" Width="160" Margin="5,10,5,0" Foreground="Black" >
                         <x:String>January</x:String>
                         <x:String>February</x:String>
                         <x:String>March</x:String>

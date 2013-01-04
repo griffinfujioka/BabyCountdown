@@ -11,9 +11,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-
-        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
     </Page.Resources>
 
     <!--
@@ -34,8 +31,31 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="{StaticResource AppName}" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="Settings" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
+
+        <!-- Settings page content-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="350"/>
+                <ColumnDefinition Width="350"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+
+
+            <ComboBox x:Name="genderComboBox" Grid.Row="1" Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,30,60,30" SelectionChanged="genderComboBox_SelectionChanged_1">
+                <TextBlock Text="Gender" Margin="0,0,0,0"/>
+                <TextBlock Text="Male" Margin="0,0,0,0"/>
+                <TextBlock Text="Female" Margin="0,0,0,0"/>
+            </ComboBox>
+
+            <TextBlock Text="Baby name: " Margin="10,35,10,30" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"/>
+            <TextBox x:Name="babyNameTxtBox" Width="230" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,30,10,30"/>
+            <Button x:Name="saveBabyNameBtn" Content="Save name" Width="120" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,28,10,30" Click="saveBabyNameBtn_Click"/>
+        </StackPanel>
+
 
         <VisualStateManager.VisualStateGroups>
 
@@ -62,6 +82,7 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
+                       
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

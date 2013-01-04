@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.Storage;          // for ApplicationData
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234237
 
@@ -21,9 +22,16 @@ namespace BabyCountdown
     /// </summary>
     public sealed partial class SettingsPage : BabyCountdown.Common.LayoutAwarePage
     {
+
+        private Windows.Foundation.Collections.IPropertySet appSettings;
+        private const string genderKey = "genderKey";           // For the baby's gender 
+        private const string nameKey = "nameKey";               // For the baby's name 
+
         public SettingsPage()
         {
             this.InitializeComponent();
+            genderComboBox.SelectedIndex = 0;
+            appSettings = ApplicationData.Current.LocalSettings.Values;
         }
 
         /// <summary>
@@ -47,6 +55,66 @@ namespace BabyCountdown
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
+        }
+
+        #region OnNavigatedTo
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (appSettings.ContainsKey(genderKey))    // If no key is contained, use the default blue 
+            {
+                switch (appSettings[genderKey].ToString())
+                {
+                    case "Male":
+                        genderComboBox.SelectedIndex = 1;
+                        break;
+                    case "Female":
+                        genderComboBox.SelectedIndex = 2;
+                        break;
+                    default:
+                        genderComboBox.SelectedIndex = 0;
+                        break;
+
+                }
+            }
+            
+
+            if(appSettings.ContainsKey(nameKey))
+            {
+                babyNameTxtBox.Text = appSettings[nameKey].ToString(); 
+            }
+        }
+        #endregion
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (babyNameTxtBox.Text == "")
+            {
+                appSettings[nameKey] = ""; 
+            }
+            base.OnNavigatedFrom(e);
+        }
+
+        private void genderComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (genderComboBox.SelectedIndex != 0 && genderComboBox.SelectedItem != null && appSettings != null)
+            {
+                switch (genderComboBox.SelectedIndex)
+                {
+                    case 1:
+                        appSettings[genderKey] = "Male";
+                        break; 
+                    case 2:
+                        appSettings[genderKey] = "Female";
+                        break; 
+                    default: break; 
+                }
+            }
+
+        }
+        private void saveBabyNameBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (babyNameTxtBox.Text != "" && appSettings != null)
+                appSettings[nameKey] = babyNameTxtBox.Text; 
         }
     }
 }

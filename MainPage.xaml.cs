@@ -29,6 +29,9 @@ namespace BabyCountdown
         #region Variable declarations
         private Windows.Foundation.Collections.IPropertySet appSettings;
         private const string dateKey = "dateKey";
+        private const string genderKey = "genderKey";           // For the baby's gender 
+        private const string livetileKey = "livetileKey";       // For live tile style 
+        private const string nameKey = "nameKey";               // For the baby's name 
         private const string TASKNAMEUSERPRESENT = "TileSchedulerTaskUserPresent";
         private const string TASKNAMETIMER = "TileSchedulerTaskTimerDeliveryDate";
         private const string TASKENTRYPOINT = "Clock.WinRT.TileSchedulerTaskDeliveryDate";
@@ -70,6 +73,8 @@ namespace BabyCountdown
                 //Clock.WinRT.ClockTileScheduler.SetGraduationDate(year, month, day); 
             }
             #endregion 
+
+            
         }
         #endregion 
 
@@ -103,7 +108,30 @@ namespace BabyCountdown
         #region OnNavigatedTo
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));
+            if (!appSettings.ContainsKey(genderKey))    // If no key is contained, use the default blue 
+            {
+                grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue by default 
+            }
+            else
+            {
+                string gender = appSettings[genderKey].ToString();
+                if(gender == "Male")
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue
+                else
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 244, 194, 202));      // Pink 
+            }
+
+            #region Countdown to a baby's specific name if one is provided
+            if (appSettings.ContainsKey(nameKey))
+            {
+                if (appSettings[nameKey].ToString() != "")
+                    untilTxtBlock.Text = "Until " + appSettings[nameKey].ToString() + "!";
+            }
+            else
+            {
+                untilTxtBlock.Text = "Until the baby!";
+            }
+            #endregion 
         }
         #endregion
 
