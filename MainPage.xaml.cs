@@ -47,10 +47,11 @@ namespace BabyCountdown
 
             Loaded += OnLoaded;
 
-            #region Initialize all selected values in the graduation date popup
+            #region Initialize all selected values in the delivery date popup
             monthComboBox.SelectedIndex = 0;
             dayComboBox.SelectedIndex = 0;
             yearComboBox.SelectedIndex = 0;
+            genderComboBox.SelectedIndex = 0;
             #endregion
 
             #region Show the date PopUp if there isn't a saved date
@@ -119,13 +120,32 @@ namespace BabyCountdown
                     grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue
                 else
                     grid.Background = new SolidColorBrush(Color.FromArgb(255, 244, 194, 202));      // Pink 
+
+                switch (appSettings[genderKey].ToString())
+                {
+                    case "Male":
+                        genderComboBox.SelectedIndex = 1;
+                        break;
+                    case "Female":
+                        genderComboBox.SelectedIndex = 2;
+                        break;
+                    default:
+                        genderComboBox.SelectedIndex = 0;
+                        break;
+
+                }
             }
 
             #region Countdown to a baby's specific name if one is provided
             if (appSettings.ContainsKey(nameKey))
             {
                 if (appSettings[nameKey].ToString() != "")
+                {
                     untilTxtBlock.Text = "Until " + appSettings[nameKey].ToString() + "!";
+                    babyNameTxtBox.Text = appSettings[nameKey].ToString();
+                    
+                }
+
             }
             else
             {
@@ -257,6 +277,9 @@ namespace BabyCountdown
             datePopUp.IsOpen = false;   // Close the PopUp
             untilTxtBlock.Visibility = Visibility.Visible;
             countdownTxtBlock.Visibility = Visibility.Visible;
+
+            if (babyNameTxtBox.Text != "" && appSettings != null)
+                appSettings[nameKey] = babyNameTxtBox.Text;
         }
         #endregion 
 
@@ -300,5 +323,140 @@ namespace BabyCountdown
             this.Frame.Navigate(typeof(SettingsPage));
         }
         #endregion
+
+        private void genderComboBox_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+            if (genderComboBox.SelectedIndex != 0 && genderComboBox.SelectedItem != null && appSettings != null)
+            {
+                switch (genderComboBox.SelectedIndex)
+                {
+                    case 1:
+                        appSettings[genderKey] = "Male";
+                        grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue
+                        break;
+                    case 2:
+                        appSettings[genderKey] = "Female";
+                        grid.Background = new SolidColorBrush(Color.FromArgb(255, 244, 194, 202));      // Pink 
+                        break;
+                    default: break;
+                }
+            }
+
+        }
+
+        private void datePopUp_Closed(object sender, object e)
+        {
+            if (appSettings.ContainsKey(genderKey))
+            {
+                string gender = appSettings[genderKey].ToString();
+                if (gender == "Male")
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue
+                else
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 244, 194, 202));      // Pink 
+            }
+
+            #region Countdown to a baby's specific name if one is provided
+            if (appSettings.ContainsKey(nameKey))
+            {
+                if (appSettings[nameKey].ToString() != "")
+                {
+                    untilTxtBlock.Text = "Until " + appSettings[nameKey].ToString() + "!";
+                    babyNameTxtBox.Text = appSettings[nameKey].ToString();
+
+                }
+
+            }
+            else
+            {
+                untilTxtBlock.Text = "Until the baby!";
+            }
+            #endregion
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            if (babyNameTxtBox.Text == "")
+            {
+                appSettings[nameKey] = "";
+            }
+            base.OnNavigatedFrom(e);
+        }
+
+        private void datePopUp_Opened(object sender, object e)
+        {
+            if (!appSettings.ContainsKey(genderKey))    // If no key is contained, use the default blue 
+            {
+                grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue by default 
+            }
+            else
+            {
+                string gender = appSettings[genderKey].ToString();
+                if (gender == "Male")
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 0, 153, 255));        // Blue
+                else
+                    grid.Background = new SolidColorBrush(Color.FromArgb(255, 244, 194, 202));      // Pink 
+
+                switch (appSettings[genderKey].ToString())
+                {
+                    case "Male":
+                        genderComboBox.SelectedIndex = 1;
+                        break;
+                    case "Female":
+                        genderComboBox.SelectedIndex = 2;
+                        break;
+                    default:
+                        genderComboBox.SelectedIndex = 0;
+                        break;
+
+                }
+            }
+
+            #region Show the date PopUp if there isn't a saved date
+            if (appSettings.ContainsKey(dateKey))
+            {
+                
+                string date = appSettings[dateKey].ToString();
+                var tempArray = date.Split(' ');    // Results in  tempArray[0] = xx/xx/xx
+                var dateArray = tempArray[0].Split('/');
+                int month = Convert.ToInt32(dateArray[0]);
+                int day = Convert.ToInt32(dateArray[1]);
+                int year = Convert.ToInt32(dateArray[2]);
+                DueDate = new DateTime(year, month, day);
+
+                dayComboBox.SelectedIndex = day - 1;
+
+                monthComboBox.SelectedIndex = month - 1; 
+                switch (year)
+                {
+                    case 2013:
+                        yearComboBox.SelectedIndex = 0; 
+                        break; 
+                    case 2014:
+                        yearComboBox.SelectedIndex = 1;
+                        break; 
+                    case 2015:
+                        yearComboBox.SelectedIndex = 2;
+                        break; 
+                    case 2016:
+                        yearComboBox.SelectedIndex = 3;
+                        break; 
+                    case 2017:
+                        yearComboBox.SelectedIndex = 4;
+                        break; 
+                    case 2018:
+                        yearComboBox.SelectedIndex = 5;
+                        break; 
+                    case 2019:
+                        yearComboBox.SelectedIndex = 6;
+                        break; 
+                    default:
+                        yearComboBox.SelectedIndex = 7;
+                        break; 
+                }
+                //Clock.WinRT.ClockTileScheduler.SetGraduationDate(year, month, day); 
+            }
+            #endregion 
+            
+        }
     }
 }

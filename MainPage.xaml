@@ -28,10 +28,11 @@
             <Button x:Name="aboutBtn" Margin="8,0,8,0" BorderThickness="0" Style="{StaticResource HelpAppBarButtonStyle}" Click="aboutBtn_Click_1" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
             <Button x:Name="changeDateBtn" Style="{StaticResource CalendarAppBarButtonStyle}" Margin="8,14,8,0" BorderThickness="0" Foreground="White" Click="changeDateBtn_Click"/>
         </StackPanel>
-        <Popup x:Name="datePopUp" Visibility="Visible" AllowDrop="False" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="400" Height="300">
-            <Grid x:Name="grid" Height="400" Width="400" Background="White">
+        <Popup x:Name="datePopUp" Visibility="Visible" AllowDrop="False" HorizontalAlignment="Center"  VerticalAlignment="Center" Width="400" Height="570" Closed="datePopUp_Closed" Opened="datePopUp_Opened">
+            <Grid x:Name="grid" Height="570" Width="400" Background="White">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="120"/>
+                    <RowDefinition Height="50"/>
                     <RowDefinition Height="200"/>
                     <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
@@ -114,7 +115,20 @@
 
                 </StackPanel>
 
-                <StackPanel x:Name="stackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="2" Grid.ColumnSpan="3">
+                <StackPanel x:Name="stackPanel4" Orientation="Vertical" Grid.Row="2" Grid.Column="0" Width="100" HorizontalAlignment="Left">
+                    <TextBlock Text="Gender:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,0" Foreground="Black" FontSize="14"/>
+                    <ComboBox x:Name="genderComboBox"  Width="100" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,0" SelectionChanged="genderComboBox_SelectionChanged_1">
+                        <TextBlock Text="Gender" Margin="0,0,0,0"/>
+                        <TextBlock Text="Male" Margin="0,0,0,0"/>
+                        <TextBlock Text="Female" Margin="0,0,0,0"/>
+                    </ComboBox>
+                </StackPanel>
+                
+                <StackPanel x:Name="stackPanel5" Orientation="Vertical" Grid.Row="2" Grid.Column="1" Width="200" HorizontalAlignment="Left" Grid.ColumnSpan="2">
+                    <TextBlock Text="Baby name: " Margin="5,5,5,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Foreground="Black"/>
+                    <TextBox x:Name="babyNameTxtBox" Width="230" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,0" Grid.Column="1" Grid.ColumnSpan="1"/>
+                </StackPanel>
+                <StackPanel x:Name="stackPanel" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Left" Grid.Row="3" Grid.ColumnSpan="3">
                     <Button x:Name="saveDateBtn" Content="Save" BorderThickness="0" Foreground="Black" Background="White" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="saveDateBtn_Click" Grid.Row="1"/>
                     <Button x:Name="cancelBtn" Content="Cancel" BorderThickness="0" Foreground="Black" Background="White" Margin="10,0,0,10" VerticalAlignment="Bottom" Click="cancelBtn_Click_1" Grid.Row="1"/>
                 </StackPanel>
